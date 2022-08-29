@@ -19,9 +19,7 @@ def acceptAppointment(request, ap_id):
     appointment = Appointments.objects.get(id=ap_id)
     send_mail(
         subject='Appointment Booked',
-        message=f'''Description : ' + appointment.desc + 
-        '\\nAppointment Date & Time : ' + appointment.date_time
-        }''',
+        message=f'''Description : {appointment.desc}\n\nAppointment Date & Time : {appointment.date_time.date()} {appointment.date_time.time()}''',
         from_email='rajsingh08471@gmail.com',
         recipient_list=[appointment.emailField],
     )
