@@ -19,13 +19,14 @@ def acceptAppointment(request, ap_id):
     appointment = Appointments.objects.get(id=ap_id)
     send_mail(
         subject='Appointment Booked',
-        message=f'''{'Description : ' + appointment.desc + 
-        '\nAppointment Date & Time : ' + appointment.date_time
+        message=f'''Description : ' + appointment.desc + 
+        '\\nAppointment Date & Time : ' + appointment.date_time
         }''',
         from_email='rajsingh08471@gmail.com',
         recipient_list=[appointment.emailField],
     )
     appointment.delete()
+    request.session['count'] -= 1
     if request.user.userprofile == 'Patient':
         return redirect('appointList')
     else:
@@ -35,8 +36,8 @@ def acceptAppointment(request, ap_id):
 @login_required(login_url='login')
 def deleteAppointment(request, ap_id):
     appointment = Appointments.objects.get(id=ap_id).delete()
+    request.session['count'] -= 1
     if request.user.userprofile.role == 'Patient':
-        print("HERE")
         return redirect('appointList')
     else:
         return redirect('doctorPage')
@@ -89,7 +90,9 @@ def patient(request):
                 doctor = MyUser.objects.get(email=doctorEmail)
                 appointMent = Appointments.objects.create(
                     user=doctor, desc=desc, emailField=email, contact=phoneNum, date_time=dt, patient_name=request.user.username)
+                request.session['count'] += 1
                 return redirect('appointList')
+            
 
     doctorList = UserProfile.objects.filter(role='Doctor')
     dateTime = DateTimeField()
