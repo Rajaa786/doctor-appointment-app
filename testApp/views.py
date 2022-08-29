@@ -17,6 +17,7 @@ max_consulting_time = 30
 @login_required(login_url='login')
 def acceptAppointment(request, ap_id):
     appointment = Appointments.objects.get(id=ap_id)
+    print(appointment.date_time.date)
     send_mail(
         subject='Appointment Booked',
         message=f'''Description : {appointment.desc}\n\nAppointment Date & Time : {appointment.date_time.date()} {appointment.date_time.time()}''',
@@ -24,7 +25,6 @@ def acceptAppointment(request, ap_id):
         recipient_list=[appointment.emailField],
     )
     appointment.delete()
-    request.session['count'] -= 1
     if request.user.userprofile == 'Patient':
         return redirect('appointList')
     else:
@@ -34,8 +34,8 @@ def acceptAppointment(request, ap_id):
 @login_required(login_url='login')
 def deleteAppointment(request, ap_id):
     appointment = Appointments.objects.get(id=ap_id).delete()
-    request.session['count'] -= 1
     if request.user.userprofile.role == 'Patient':
+        print("HERE")
         return redirect('appointList')
     else:
         return redirect('doctorPage')
@@ -43,17 +43,7 @@ def deleteAppointment(request, ap_id):
 
 @login_required(login_url='login')
 def index(request):
-    if(request.user.userprofile.role == "Patient"):
-        appointments_count = Appointments.objects.filter(
-            patient_name=request.user.username).count()
-        # request.user.count = appointments_count
-        request.session['count'] = appointments_count
-    else:
-        appointments_count = request.user.appointments_set.count()
-        request.session['count'] = appointments_count
-        print(request.session['count'])
-
-    return render(request, 'index.html', {'appointments_cnt': appointments_count})
+    return render(request, 'index.html')
 
 
 @ login_required(login_url='login')
@@ -90,7 +80,6 @@ def patient(request):
                     user=doctor, desc=desc, emailField=email, contact=phoneNum, date_time=dt, patient_name=request.user.username)
                 request.session['count'] += 1
                 return redirect('appointList')
-            
 
     doctorList = UserProfile.objects.filter(role='Doctor')
     dateTime = DateTimeField()
@@ -111,9 +100,16 @@ def Login(request):
                 print("User Found")
                 login(request, user)
                 print(user.userprofile.role)
+
                 if user.userprofile.role == 'Patient':
+                    appointments_count = Appointments.objects.filter(
+                        patient_name=request.user.username).count()
+                    # request.user.count = appointments_count
+                    request.session['count'] = appointments_count
                     return redirect('patientPage')
                 else:
+                    appointments_count = request.user.appointments_set.count()
+                    request.session['count'] = appointments_count
                     return redirect('doctorPage')
             else:
                 print("User Not Found")
