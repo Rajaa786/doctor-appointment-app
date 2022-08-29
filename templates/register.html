@@ -1,0 +1,124 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Register
+Here{%endblock title %} {% block content %}
+<div>This is Register Page</div>
+<div class="container my-4">
+  <form method="post" action="/Register/">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="{{form.username.id_for_label}}" class="form-label"
+        >{{form.username.label_tag}}</label
+      >
+      <span autofocus >{{form.username}}</span> {% comment %}
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        aria-describedby="emailHelp"
+      />
+      {% endcomment %}
+    </div>
+    <div class="mb-3">
+      <label for="{{form.email.id_for_label}}" class="form-label"
+        >{{form.email.label_tag}}</label
+      >
+      {{form.email}} {% comment %}
+      <input
+        type="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp"
+      />
+      {% endcomment %}
+      <div id="emailHelp" class="form-text">
+        * We'll never share your email with anyone else.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="{{form.phone.id_for_label}}" class="form-label"
+        >{{form.phone.label_tag}}</label
+      >
+      {{form.phone}} {% comment %}
+      <input
+        type="phoneNum"
+        class="form-control"
+        id="phoneNum"
+        aria-describedby="emailHelp"
+      />
+      {% endcomment %}
+    </div>
+    <div class="mb-3">
+      <label for="{{form.password1.id_for_label}}" class="form-label"
+        >{{form.password1.label_tag}}</label
+      >
+      {{form.password1}} {% comment %}
+      <input type="password" class="form-control" id="exampleInputPassword1" />
+      {% endcomment %}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{form.password2.id_for_label}}" class="form-label"
+        >{{form.password2.label_tag}}</label
+      >
+      {{form.password2}}
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="selectInput">Role</label>
+      </div>
+      <select class="custom-select" id="selectInput" name = "selectInputData" required>
+        <option selected>Choose...</option>
+        <option value="Patient">Patient</option>
+        <option value="Doctor">Doctor</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  {% comment %} {% if form.username.errors %}
+  <ol>
+    {% for error in form.username.errors %}
+    <li class="text-danger"><strong>{{ error|escape}}</strong></li>
+    {% endfor %}
+  </ol>
+  {% endif %}  {% endcomment %}
+  
+  
+ 
+  
+  {% if form.email.errors %}
+  <br>
+  <ol>
+    {% for error in form.email.errors %}
+    <li class="text-danger"><strong>{{ error | escape }}</p></strong></li>
+    {% endfor %}
+  </ol>
+  {% endif %} 
+  
+  
+  {% comment %} {% for error in form.errors %}
+    <li><strong>{{ error. }}</strong></li>
+  {% endfor %} {% endcomment %}
+  
+  {% if form.password1.errors %}
+  <ol>
+    {% for error in form.password1.errors %}
+    <li class="text-danger"><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+
+
+
+  {% if form.password2.errors %}
+  <ol>
+    {% for error in form.password2.errors %}
+    <li class="text-danger"><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+
+</div>
+{% endblock content %}

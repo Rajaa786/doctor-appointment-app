@@ -1,0 +1,17 @@
+
+.foo {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+body{
+  height: 100vh;
+}
+
+.image{
+  height: 90%;
+  background: url("https://media.istockphoto.com/photos/portrait-of-young-woman-stock-photo-picture-id1360521858?k=20&m=1360521858&s=612x612&w=0&h=oqExl4P0q0HSpVtnVzgpZllKgaA0dQAdHyi3bz9on5A=") no-repeat;
+  background-size: 100% auto;
+  background-position: center 25%;
+}

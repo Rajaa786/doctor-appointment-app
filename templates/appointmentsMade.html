@@ -1,0 +1,56 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Appointments
+Made{% endblock title %} {% block content %}
+<div class="container">
+  <h3 class="rounded-3 border border-3 d-inline-flex p-3 col-4">
+    These are your Appointments
+  </h3>
+  <p class="my-3">{{request.user.userprofile.role}}</p>
+  <p class="my-3">{{request.user.username}}</p>
+  {% if request.user.userprofile.role == 'Patient' %} 
+  {% for appointment in Appointments %}
+  <div class="card">
+    <div class="card-header">{{appointment.emailField}}</div>
+    <div class="card-body">
+      <h5 class="card-title">{{appointment.patient_name}}</h5>
+      <p class="card-title">Doctor's Name : {{appointment.user.username}}</p>
+      <p class="card-text">{{appointment.desc}}</p>
+      <p class="card-text">{{appointment.date_time}}</p>
+      <span style="background-color : #0f070394" class="rounded text-white text-wrap px-1 py-1"
+      >We will let you know shortly</span
+      >
+      <a
+        href="{% url 'deleteAppointment' ap_id=appointment.id %}"
+        class="btn btn-danger position-absolute top-0 end-0 me-2 mt-5"
+        >Remove</a
+      >
+    </div>
+  </div>
+  <br />
+  {% endfor %} 
+  {% else %} 
+  {% for appointment in Appointments %}
+  <div class="card">
+    <div class="card-header">{{appointment.emailField}}</div>
+    <div class="card-body">
+      <h5 class="card-title">{{appointment.patient_name}}</h5>
+      <p class="card-title">Doctor's Name : {{appointment.user.username}}</p>
+      <p class="card-text">{{appointment.desc}}</p>
+      <p class="card-text">{{appointment.date_time}}</p>
+      <a
+        href="{% url 'acceptAppointment' ap_id=appointment.id %}"
+        class="btn btn-success"
+        >Accept</a
+      >
+      <a
+        href="{% url 'deleteAppointment' ap_id=appointment.id %}"
+        class="btn btn-danger"
+        >Reject</a
+      >
+    </div>
+  </div>
+  <br />
+  {% endfor %} 
+  {% endif %}
+</div>
+
+{% endblock content%}
