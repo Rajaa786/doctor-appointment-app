@@ -1,0 +1,61 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Patient
+Page{%endblock title %} {% block content %}
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} mb-0 alert-dismissible fade show" role="alert">
+        <strong>Message : </strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+{% endif %}
+
+<div class="container p-2">
+  <form class="row g-4" action="/patient/" method="post">
+    {% csrf_token %}
+    <div>
+      <div class="">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" id="email" />
+      </div>
+    </div>
+    <div class="">
+      <select
+        class="form-select form-select-lg mb-3"
+        aria-label=".form-select-lg example"
+        name="doctor_name"
+      >
+        <option disabled selected>Choose from the list of doctors...</option>
+
+        {% for doctor in doctors_list%}
+        <option value="{{doctor.user.email}}">{{doctor.user.username}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="">
+      <label for="desc" class="form-label">Description</label>
+      <textarea
+        class="form-control"
+        rows="2"
+        name="desc"
+        id="desc"
+        placeholder="Your Description"
+      ></textarea>
+    </div>
+
+    <div class="">
+      <label for="phoneNum" class="form-label">Phone Number</label>
+      <input type="text" class="form-control" id="phoneNum" name="phoneNum" />
+    </div>
+
+    <div>
+      <label for="form.date_time.id_for_label">Date-Time</label>
+      {{form.date_time}}
+    </div>
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary">Book Appointment</button>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

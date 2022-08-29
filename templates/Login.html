@@ -1,0 +1,39 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Login
+Here{%endblock title %} {% block content %}
+<div>This is Login Page</div>
+<div class="container">
+  <form action="/Login/" method="post">
+    {% csrf_token %} {% comment %}
+    <div class="mb-3">
+      <label for="{{form.email.id_for_label}}" class="form-label"
+        >{{form.email.label_tag}}</label
+      >
+      {{form.email}}
+    </div>
+    <div class="mb-3">
+      <label for="{{form.password.id_for_label}}" class="form-label"
+        >{{form.password.label_tag}}</label
+      >
+      {{form.password}}
+    </div>
+    {% endcomment %}
+
+    <div class="form-group row">
+      <label for="{{form.email.id_for_label}}" class="col-sm-2 col-form-label"
+        >{{form.email.label_tag}}</label
+      >
+      <div class="col-sm-5">{{form.email}}</div>
+    </div>
+    <div class="form-group row">
+      <label
+        for="{{form.password_.id_for_label}}"
+        class="col-sm-2 col-form-label"
+        >{{form.password_.label_tag}}</label
+      >
+      <div class="col-sm-5">{{form.password_}}</div>
+    </div>
+
+    <button type="submit" class="center btn btn-primary">Login</button>
+  </form>
+</div>
+{% endblock content %}
