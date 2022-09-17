@@ -35,7 +35,7 @@ def acceptAppointment(request, ap_id):
 def deleteAppointment(request, ap_id):
     appointment = Appointments.objects.get(id=ap_id).delete()
     if request.user.userprofile.role == 'Patient':
-        print("HERE")
+     
         return redirect('appointList')
     else:
         return redirect('doctorPage')
